@@ -1,0 +1,46 @@
+Triage Feature Analysis Report
+==============================
+
+1. Missing Value Analysis (Constraint: No Imputation)
+--------------------------------------------------
+身高           68.413965
+體重           62.768051
+SAO2          2.652025
+GCS_Total     1.709313
+GCS_V         1.564281
+GCS_M         1.512483
+GCS_E         1.502124
+收縮壓           1.263856
+舒張壓           1.263856
+脈搏            1.180980
+呼吸            1.180980
+體溫            0.973791
+
+NOTE: High missingness in vitals implies specific triage context (e.g. minor injury vs critical).
+
+2. Numeric Feature Correlation with Target (Pearson)
+--------------------------------------------------
+檢傷分級         1.000000
+GCS_Total    0.376449
+GCS_V        0.363694
+GCS_M        0.346217
+GCS_E        0.317186
+SAO2         0.101837
+體重           0.067812
+身高           0.057496
+舒張壓         -0.014477
+收縮壓         -0.040697
+Age         -0.093937
+呼吸          -0.115311
+體溫          -0.125031
+脈搏          -0.134927
+
+3. Categorical/Text Feature Insights
+--------------------------------------------------
+Correlation between Complaint Length and Triage Level: -0.2644
+
+cardinality of 檢傷名稱中文名: 157
+Average predictability of Triage Level given 檢傷名稱中文名: 0.9071 (1.0 = perfect leakage)
+
+cardinality of 檢傷大分類中文名: 38
+Average predictability of Triage Level given 檢傷大分類中文名: 0.8284 (1.0 = perfect leakage)

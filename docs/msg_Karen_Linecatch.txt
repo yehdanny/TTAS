@@ -1,0 +1,8 @@
+怡仁醫院 AI-TTAS檢傷分類，Taiwan Triage and Acuity Scale(TTAS)
+
+一級: 復甦急救
+二級: 危急
+三級: 緊急
+四級: 次緊急 
+五級: 非緊急
+

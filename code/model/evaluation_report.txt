@@ -1,0 +1,26 @@
+Model Evaluation Report
+=======================
+
+Model: HistGradientBoostingClassifier
+Accuracy: 0.8405
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.96      0.67      0.79        33
+           2       0.80      0.62      0.70       171
+           3       0.84      0.97      0.90      1373
+           4       0.81      0.52      0.63       269
+           5       0.90      0.31      0.46        85
+
+    accuracy                           0.84      1931
+   macro avg       0.86      0.62      0.69      1931
+weighted avg       0.84      0.84      0.83      1931
+
+
+Confusion Matrix:
+[[  22    7    4    0    0]
+ [   1  106   63    0    1]
+ [   0   17 1329   25    2]
+ [   0    1  128  140    0]
+ [   0    2   49    8   26]]

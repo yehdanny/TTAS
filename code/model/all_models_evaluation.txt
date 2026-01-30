@@ -1,0 +1,8 @@
+All Models Evaluation Summary
+=============================
+
+Model Name                | Accuracy  
+----------------------------------------
+HistGradientBoosting      | 0.8405
+LightGBM                  | 0.8374
+XGBoost                   | 0.8358

@@ -1,0 +1,33 @@
+Model: HistGradientBoosting
+==============================
+
+Accuracy: 0.8405
+
+Global Metrics:
+--------------------
+Metric          | Micro      | Macro      | Weighted  
+Precision       | 0.8405     | 0.8548     | 0.8399
+Recall          | 0.8405     | 0.6126     | 0.8405
+F1-Score        | 0.8405     | 0.6894     | 0.8256
+
+Full Classification Report:
+------------------------------
+              precision    recall  f1-score   support
+
+           1       0.91      0.64      0.75        33
+           2       0.79      0.62      0.69       171
+           3       0.85      0.97      0.90      1373
+           4       0.80      0.54      0.64       269
+           5       0.93      0.31      0.46        85
+
+    accuracy                           0.84      1931
+   macro avg       0.85      0.61      0.69      1931
+weighted avg       0.84      0.84      0.83      1931
+
+Confusion Matrix:
+------------------------------
+[[  21    8    4    0    0]
+ [   1  106   62    2    0]
+ [   1   19 1326   25    2]
+ [   0    2  123  144    0]
+ [   0    0   50    9   26]]
