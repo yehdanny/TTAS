@@ -1,8 +1,10 @@
-All Models Evaluation Summary
-=============================
+All Models Evaluation Summary (Balanced + TFIDF)
+==============================================
 
-Model Name                | Accuracy  
-----------------------------------------
-HistGradientBoosting      | 0.8405
-LightGBM                  | 0.8374
-XGBoost                   | 0.8358
+Model Name                | Accuracy   | F1 (Macro)   | Recall (Macro) | Precision (Macro)
+------------------------------------------------------------------------------------------
+HistGradientBoosting      | 0.8322     | 0.7290       | 0.7164       | 0.7478
+LightGBM                  | 0.8219     | 0.7207       | 0.7252       | 0.7183
+VotingEnsemble            | 0.8219     | 0.7225       | 0.7318       | 0.7164
+XGBoost                   | 0.8120     | 0.7170       | 0.7314       | 0.7061
+CatBoost                  | 0.6924     | 0.6115       | 0.6965       | 0.5755

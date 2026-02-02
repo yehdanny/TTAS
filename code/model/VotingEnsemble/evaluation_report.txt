@@ -1,0 +1,33 @@
+Model: VotingEnsemble (Balanced)
+==============================
+
+Accuracy: 0.8219
+
+Global Metrics:
+--------------------
+Metric          | Micro      | Macro      | Weighted  
+Precision       | 0.8219     | 0.7164     | 0.8315
+Recall          | 0.8219     | 0.7318     | 0.8219
+F1-Score        | 0.8219     | 0.7225     | 0.8256
+
+Full Classification Report:
+------------------------------
+              precision    recall  f1-score   support
+
+           1       0.87      0.79      0.83        33
+           2       0.66      0.72      0.69       171
+           3       0.91      0.87      0.89      1373
+           4       0.63      0.73      0.67       269
+           5       0.52      0.55      0.53        85
+
+    accuracy                           0.82      1931
+   macro avg       0.72      0.73      0.72      1931
+weighted avg       0.83      0.82      0.83      1931
+
+Confusion Matrix:
+------------------------------
+[[  26    5    2    0    0]
+ [   2  123   42    4    0]
+ [   2   48 1195  100   28]
+ [   0    7   50  196   16]
+ [   0    3   22   13   47]]

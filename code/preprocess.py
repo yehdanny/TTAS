@@ -81,7 +81,7 @@ def preprocess_data(file_path, output_path):
         "預設檢傷級數",  # This sounds like a system suggestion, might be leakage
         "急診日期",
         "生日",  # Used for Age
-        "病人主訴",  # Processed into length/NLP (raw text usually dropped for tabular model unless vectorizing)
+        # "病人主訴",  # Retain for TF-IDF
         "藥物過敏史",  # Complex text, maybe drop for now or just keep? User didn't specify. dropping for MVP clean dataset.
     ]
 

@@ -41,11 +41,11 @@ if __name__ == "__main__":
 
     project_root = os.path.dirname(os.path.dirname(script_dir))  # Work/TTAS
     data_dir = os.path.join(project_root, "data", "0128")
-    input_file = os.path.join(data_dir, "processed_data_nan.csv")
+    input_file = os.path.join(data_dir, "processed_data.csv")
 
     if not os.path.exists(input_file):
         # Fallback for running from root
-        input_file = "data/0128/processed_data_nan.csv"
+        input_file = "data/0128/processed_data.csv"
         data_dir = "data/0128"
 
     split_dataset(input_file, data_dir)

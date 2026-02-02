@@ -1,0 +1,33 @@
+Model: CatBoost (Balanced)
+==============================
+
+Accuracy: 0.6924
+
+Global Metrics:
+--------------------
+Metric          | Micro      | Macro      | Weighted  
+Precision       | 0.6924     | 0.5755     | 0.7794
+Recall          | 0.6924     | 0.6965     | 0.6924
+F1-Score        | 0.6924     | 0.6115     | 0.7166
+
+Full Classification Report:
+------------------------------
+              precision    recall  f1-score   support
+
+           1       0.76      0.79      0.78        33
+           2       0.47      0.73      0.57       171
+           3       0.91      0.69      0.79      1373
+           4       0.45      0.70      0.55       269
+           5       0.28      0.58      0.37        85
+
+    accuracy                           0.69      1931
+   macro avg       0.58      0.70      0.61      1931
+weighted avg       0.78      0.69      0.72      1931
+
+Confusion Matrix:
+------------------------------
+[[ 26   7   0   0   0]
+ [  5 125  33   6   2]
+ [  3 121 950 201  98]
+ [  0  10  43 187  29]
+ [  0   1  14  21  49]]
