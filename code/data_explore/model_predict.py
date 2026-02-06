@@ -21,19 +21,17 @@ def generate_ttas_response(pipe, patient_info, retrieved_docs):
     }}
     """
 
-    messages = [{"role": "user", "content": prompt}]
-    # 使用 Qwen3 進行生成
-    gen_kwargs = {
-        "max_new_tokens": 1024,
-        "temperature": 0.1,
-        "top_p": 0.9,
-        "do_sample": True,
-        "repetition_penalty": 1.1,
-    }
+    formatted_prompt = f"<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n"
 
-    # 執行推論
-    result = pipe(messages, **gen_kwargs)
-    return result[0]["generated_text"][-1]["content"]
+    result = pipe(
+        formatted_prompt,
+        max_tokens=512,
+        temperature=0.1,
+        stop=["<|im_end|>", "<|im_start|>"],
+        echo=False,
+    )
+
+    return result["choices"][0]["text"].strip()
 
 
 def model_predict(pipe, patient_info, collection, target_group, complaint):
@@ -45,14 +43,12 @@ def model_predict(pipe, patient_info, collection, target_group, complaint):
     except Exception as e:
         print(f"[error] RAG failed: {e}")
 
-    try:  # llm quest
-        final_decision = generate_ttas_response(
-            pipe, patient_info, results["documents"][0]
-        )
-        print("[info] LLM prediction successfully")
-        return final_decision
-    except Exception as e:
-        print(f"[error] LLM prediction failed: {e}")
+    # try:  # llm quest
+    final_decision = generate_ttas_response(pipe, patient_info, results["documents"][0])
+    print("[info] LLM prediction successfully")
+    return final_decision
+    # except Exception as e:
+    #     print(f"[error] LLM prediction failed: {e}")
 
 
 if __name__ == "__main__":

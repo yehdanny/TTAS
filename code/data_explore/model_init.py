@@ -1,20 +1,33 @@
 import torch
 import chromadb
-from transformers import pipeline
+from llama_cpp import Llama
 from utilities.chunk_list import chunks_list
 import os
 
 os.environ["HF_HUB_OFFLINE"] = "1"
 
 
-# 1. 初始化 Qwen3
-def initialize_llm(model_id="unsloth/Qwen3-4B-Instruct-2507-unsloth-bnb-4bit"):
-    device = 0 if torch.cuda.is_available() else -1
-    pipe = pipeline(
-        "text-generation",
-        model=model_id,
-        trust_remote_code=True,
-        device=device,
+def initialize_llm():
+    # CPU / GPU
+    gpu_available = torch.cuda.is_available()
+
+    if gpu_available:
+        gpu_name = torch.cuda.get_device_name(0)
+        vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
+        print(f"[Hardware] 偵測到 GPU: {gpu_name} ({vram_gb:.2f}GB VRAM)")
+
+        n_gpu_layers = -1 if vram_gb > 4 else 20
+    else:
+        print("[Hardware] 未偵測到 GPU，使用 CPU 執行")
+        n_gpu_layers = 0
+
+    pipe = Llama(
+        model_path=r"C:\Users\ygz08\Work\TTAS\code\data_explore\models\Qwen3-4B-Instruct-2507-Q4_K_M.gguf",
+        n_gpu_layers=n_gpu_layers,
+        n_ctx=4096,
+        n_threads=os.cpu_count(),
+        f16_kv=True,
+        verbose=False,
     )
     return pipe
 
@@ -50,3 +63,5 @@ if __name__ == "__main__":
 
     # qwen 2507 fp16 = 14.4 + 133.1  seconds
     # qwen 2507 fp4 = 9.0 + 78.9  seconds
+
+    # qwen 2507 fp4 w/AutoModelForCausalLM = 9.3 + 86.9 seconds

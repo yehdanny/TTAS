@@ -1,4 +1,4 @@
-from utilities.get_patient_info_csv import get_patient_info
+from utilities.get_patient_info import get_patient_info
 from utilities.save2json import save2json
 from model_predict import model_predict
 from model_init import model_init
