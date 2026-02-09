@@ -18,25 +18,21 @@ _validation.py
 - even_more_count: int
 - total_accuracy: float
 
+實體檔案:
+- result_log: 紀錄結果
 """
 
 from utilities.get_patient_info import get_patient_info
 from model_predict import model_predict
 from model_init import model_init
 import pandas as pd
+import logging
 import json
 import re
-import logging
 
 # init
 pipe, collection = model_init()
 
-logging.basicConfig(
-    filename=r"C:\Users\ygz08\Work\TTAS\code\data_explore\test_file\error.log",
-    level=logging.ERROR,
-    encoding="utf-8",
-    force=True,
-)
 logging.basicConfig(
     filename=r"C:\Users\ygz08\Work\TTAS\code\data_explore\test_file\result.log",
     level=logging.INFO,

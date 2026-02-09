@@ -12,8 +12,11 @@ save2json.py
 
 """
 
+import logging
 import json
 import re
+
+logger = logging.getLogger(__name__)
 
 
 def save2json(final_decision):
@@ -25,7 +28,7 @@ def save2json(final_decision):
         else:
             final_decision_dict = final_decision
     except Exception as e:
-        print(f"解析失敗->防呆機制: {e}")
+        logger.error(f"解析失敗->防呆機制: {e}")
         final_decision_dict = {"raw_output": final_decision}
 
     # 2. 正確存檔

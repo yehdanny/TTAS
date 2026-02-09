@@ -14,7 +14,10 @@ valdata_gen.py
 """
 
 import pandas as pd
+import logging
 import os
+
+logger = logging.getLogger(__name__)
 
 
 def generate_val_data():
@@ -28,20 +31,20 @@ def generate_val_data():
     try:
         # Check if input file exists
         if not os.path.exists(input_csv):
-            print(f"Error: Input file not found at {input_csv}")
+            logger.error(f"Error: Input file not found at {input_csv}")
             return
 
         # Read CSV
-        print(f"Reading from {input_csv}...")
+        logger.info(f"Reading from {input_csv}...")
         df = pd.read_csv(input_csv)
     except Exception as e:
-        print(f"Error reading CSV: {e}")
+        logger.error(f"Error reading CSV: {e}")
         return
 
     target_col = "檢傷分級"
     if target_col not in df.columns:
-        print(f"Error: Column '{target_col}' not found in CSV.")
-        print("Available columns:", df.columns.tolist())
+        logger.error(f"Error: Column '{target_col}' not found in CSV.")
+        logger.error(f"Available columns: {df.columns.tolist()}")
         return
 
     # Clean the column: force numeric, handle errors
@@ -54,12 +57,14 @@ def generate_val_data():
     for level in valid_levels:
         subset = df[df[target_col] == level]
         count = len(subset)
-        print(f"Found {count} records for level {level}")
+        logger.info(f"Found {count} records for level {level}")
 
         if count >= 50:
             sample = subset.sample(n=50, random_state=42)
         else:
-            print(f"Warning: Only {count} records found for level {level}, taking all.")
+            logger.warning(
+                f"Warning: Only {count} records found for level {level}, taking all."
+            )
             sample = subset
 
         val_data_frames.append(sample)
@@ -71,14 +76,19 @@ def generate_val_data():
 
         try:
             result_df.to_csv(output_val_csv, index=False)
-            print(f"Successfully saved validation data to {output_val_csv}")
-            print("\nDistribution of Triage Levels in Validation Set:")
-            print(result_df[target_col].value_counts().sort_index())
+            logger.info(f"Successfully saved validation data to {output_val_csv}")
+            logger.info("\nDistribution of Triage Levels in Validation Set:")
+            logger.info(result_df[target_col].value_counts().sort_index())
         except Exception as e:
-            print(f"Error saving CSV: {e}")
+            logger.error(f"Error saving CSV: {e}")
     else:
-        print("No data found for specified triage levels.")
+        logger.warning("No data found for specified triage levels.")
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        encoding="utf-8",
+        format="%(levelname)s: %(message)s",
+    )
     generate_val_data()

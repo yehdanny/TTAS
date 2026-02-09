@@ -19,8 +19,11 @@ import chromadb
 from llama_cpp import Llama
 from utilities.chunk_list import chunks_list
 import os
+import logging
 
 os.environ["HF_HUB_OFFLINE"] = "1"
+
+logger = logging.getLogger(__name__)
 
 
 def initialize_llm():
@@ -30,11 +33,11 @@ def initialize_llm():
     if gpu_available:
         gpu_name = torch.cuda.get_device_name(0)
         vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
-        print(f"[Hardware] 偵測到 GPU: {gpu_name} ({vram_gb:.2f}GB VRAM)")
+        logger.info(f"[Hardware] 偵測到 GPU: {gpu_name} ({vram_gb:.2f}GB VRAM)")
 
         n_gpu_layers = -1 if vram_gb > 4 else 20
     else:
-        print("[Hardware] 未偵測到 GPU，使用 CPU 執行")
+        logger.info("[Hardware] 未偵測到 GPU，使用 CPU 執行")
         n_gpu_layers = 0
 
     pipe = Llama(
@@ -66,9 +69,9 @@ def model_init():
     try:  # initialize llm
         pipe = initialize_llm()
         collection = setup_vector_db(chunks_list)
-        print("[info] Model initialized successfully")
+        logger.info("[info] Model initialized successfully")
     except Exception as e:
-        print(f"[error] Model initialization failed: {e}")
+        logger.error(f"[error] Model initialization failed: {e}")
 
     return pipe, collection
 

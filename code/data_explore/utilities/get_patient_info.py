@@ -20,7 +20,10 @@ get_patient_info() :
 
 from datetime import datetime
 import pandas as pd
+import logging
 import json
+
+logger = logging.getLogger(__name__)
 
 
 def format_patient_info_csv(row):
@@ -119,14 +122,14 @@ def get_patient_info(test=False, row=None):
         try:  # get json
             json_data = get_json_api()
         except Exception as e:
-            print(f"[error] Get JSON failed: {e}")
+            logger.error(f"[error] Get JSON failed: {e}")
 
         try:  # format patient info
             patient_text, target, complaint = format_patient_info_json(json_data)
         except Exception as e:
-            print(f"[error] Format patient info failed: {e}")
+            logger.error(f"[error] Format patient info failed: {e}")
 
-        print("[info] Get patient info successfully")
+        logger.info("[info] Get patient info successfully")
         return patient_text, target, complaint
 
 

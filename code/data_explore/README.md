@@ -18,25 +18,31 @@ data_explore/
 └── README.md           # 本說明文件
 ```
 
+
 ## 前置需求
 
 請確保已安裝以下 Python 套件：
 
-- `torch`
-- `chromadb`
-- `llama-cpp-python = 0.3.16 #gpu version`
-- `pandas`
 
-### 您可能需要根據硬體配置調整 `llama-cpp-python` 的安裝方式，例如為了支援 CUDA 加速 :
+- `torch #cuda version`
+```bash
+uv pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124 
+```
+
+- `chromadb`
+- `llama-cpp-python = 0.3.16 #cuda version`
 
 ```bash
+### 根據硬體配置調整 `llama-cpp-python` 的安裝方式，例如為了支援 CUDA 加速 :
 $env:CMAKE_ARGS = "-DGGML_CUDA=on" 
 uv pip install llama-cpp-python --no-cache-dir --force-reinstall
 ```
+- `pandas`
+
 
 ## 設定
 
-1.  **模型準備：** 將您的 GGUF 模型檔案（例如 `Qwen3-4B-Instruct-2507-Q4_K_M.gguf`）放入 `models/` 目錄中。
+1.  **模型準備：** 將 GGUF 模型檔案（ `Qwen3-4B-Instruct-2507-Q4_K_M.gguf`）放入 `models/` 目錄中。
 2.  **資料準備：** 確保輸入資料（JSON 或 CSV）可被讀取。系統目前預設讀取 `test_file/test.json`，或可於 `utilities/get_patient_info_csv.py` 中設定特定的 CSV 路徑。
 
 ## 使用方式

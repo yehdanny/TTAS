@@ -17,6 +17,10 @@ model_predict.py
 
 """
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def generate_ttas_response(pipe, patient_info, retrieved_docs):
     context = "\n\n".join(retrieved_docs)
@@ -58,16 +62,18 @@ def model_predict(pipe, patient_info, collection, target_group, complaint):
         results = collection.query(
             query_texts=[complaint], n_results=3, where={"target": target_group}
         )
-        print("[info] RAG successfully")
+        logger.info("[info] RAG successfully")
     except Exception as e:
-        print(f"[error] RAG failed: {e}")
+        logger.error(f"[error] RAG failed: {e}")
 
-    # try:  # llm quest
-    final_decision = generate_ttas_response(pipe, patient_info, results["documents"][0])
-    print("[info] LLM prediction successfully")
-    return final_decision, results["documents"][0]
-    # except Exception as e:
-    #     print(f"[error] LLM prediction failed: {e}")
+    try:  # llm quest
+        final_decision = generate_ttas_response(
+            pipe, patient_info, results["documents"][0]
+        )
+        logger.info("[info] LLM prediction successfully")
+        return final_decision, results["documents"][0]
+    except Exception as e:
+        logger.error(f"[error] LLM prediction failed: {e}")
 
 
 if __name__ == "__main__":
