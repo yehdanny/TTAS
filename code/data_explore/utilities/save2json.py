@@ -1,3 +1,17 @@
+"""
+save2json.py
+
+用途:
+- 將final_decision存成json檔
+
+輸入:
+- final_decision: dict or str
+
+輸出:
+- out.json
+
+"""
+
 import json
 import re
 

@@ -1,3 +1,23 @@
+"""
+get_patient_info.py
+
+用途:
+- 取得病患基本資料
+- 格式化病患基本資料
+
+輸入:
+get_patient_info() :
+- test=True: 測試用，用csv讀取row當輸入
+- test=False: 使用api 讀取json format 的病患基本資料 (正式pipeline輸入)
+
+輸出:
+- patient_text: str : 病人生理資料
+- target_group: str : 成人/兒童
+- complaint: str : 病人主訴
+- ground_truth: int (only when test=True) : 檢傷分級 (**驗證時**才需要該變數)
+
+"""
+
 from datetime import datetime
 import pandas as pd
 import json
@@ -40,7 +60,13 @@ def format_patient_info_csv(row):
     - 意識狀態 (GCS)：{gcs_sum} 分 (E{row["GCS_E"]}, V{row["GCS_V"]}, M{row["GCS_M"]})
     - 藥物過敏史：{row["藥物過敏史"]}
     """
-    return info_str, target_group, row["病人主訴"]
+
+    return (
+        info_str,
+        target_group,
+        row["病人主訴"],
+        row["檢傷分級"],
+    )  # 檢傷分級 for validation purpose
 
 
 def format_patient_info_json(json_data):
@@ -85,12 +111,10 @@ def format_patient_info_json(json_data):
     return info_str, target_group, json_data["病人主訴"]
 
 
-def get_patient_info(test=False):
+def get_patient_info(test=False, row=None):
     if test:
-        test_csv = pd.read_csv(r"C:\Users\ygz08\Work\TTAS\data\0128\data.csv")
-        row = test_csv.iloc[0]  # 0 is the first row
-        patient_text, target, complaint = format_patient_info_csv(row)
-        return patient_text, target, complaint
+        patient_text, target, complaint, ground_truth = format_patient_info_csv(row)
+        return patient_text, target, complaint, ground_truth
     else:
         try:  # get json
             json_data = get_json_api()

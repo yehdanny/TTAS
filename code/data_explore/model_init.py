@@ -1,3 +1,19 @@
+"""
+model_init.py
+
+用途:
+- 初始化model
+- 初始化vector database
+
+輸入:
+- chunks_list: list : 檢傷標準的list，每個元素都是一個dict，包含metadata、content、remarks。
+
+輸出:
+- pipe: model的物件，供後續進行LLM生成預測結果。
+- collection: vector database的物件，供後續進行relevant計算。
+
+"""
+
 import torch
 import chromadb
 from llama_cpp import Llama

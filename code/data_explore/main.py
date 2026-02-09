@@ -1,3 +1,25 @@
+"""
+main.py
+
+用途:
+- 主要進入點，進行LLM+RAG的檢傷預測。
+
+輸入:
+- model_init(): 初始化model和vector database
+- get_patient_info(): 取得病患基本資料、目標族群、主訴
+- model_predict(): 進行LLM+RAG的檢傷預測
+- save2json(): 將檢傷預測結果儲存到json檔案
+
+輸出:
+- pipe: model的物件，進行LLM生成預測結果。
+- collection: vector database的物件，儲存著ttas的embeddings。
+- patient_info: dict : 病人生理資料
+- target_group: str : 成人/兒童
+- complaint: str : 病人主訴
+- final_decision: dict : LLM檢傷預測結果 (包含檢傷級數、原因)
+
+"""
+
 from utilities.get_patient_info import get_patient_info
 from utilities.save2json import save2json
 from model_predict import model_predict

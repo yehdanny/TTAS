@@ -24,10 +24,15 @@ data_explore/
 
 - `torch`
 - `chromadb`
-- `llama-cpp-python`
+- `llama-cpp-python = 0.3.16 #gpu version`
 - `pandas`
 
-(您可能需要根據硬體配置調整 `llama-cpp-python` 的安裝方式，例如為了支援 CUDA 加速)。
+### 您可能需要根據硬體配置調整 `llama-cpp-python` 的安裝方式，例如為了支援 CUDA 加速 :
+
+```bash
+$env:CMAKE_ARGS = "-DGGML_CUDA=on" 
+uv pip install llama-cpp-python --no-cache-dir --force-reinstall
+```
 
 ## 設定
 
@@ -39,7 +44,7 @@ data_explore/
 執行 `main.py` 腳本來運行完整的流程：
 
 ```bash
-python main.py
+uv run main.py
 ```
 
 ### 運作流程

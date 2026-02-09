@@ -1,3 +1,29 @@
+"""
+chunk_list.py
+
+用途:
+- 儲存檢傷標準的chunk，從總表pdf切出
+
+輸入:
+- None
+
+輸出:
+- respiratory_adult_chunk: dict
+- hemodynamic_adult_chunk: dict
+- loc_adult_chunk: dict
+- temp_adult_chunk: dict
+- pain_adult_chunk: dict
+- injury_mechanism_adult_chunk: dict
+- hypertension_chunk: dict
+- respiratory_child_chunk: dict
+- hemodynamic_child_chunk: dict
+- loc_child_chunk: dict
+- temp_child_chunk: dict
+- pain_child_chunk: dict
+- injury_mechanism_child_chunk: dict
+
+"""
+
 respiratory_adult_chunk = {
     "metadata": {
         "category": "生命徵象",
