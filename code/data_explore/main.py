@@ -47,7 +47,7 @@ logging.info(f"[time] Model initialized in {end_time - start_time:.2f} seconds")
 start_time2 = time.time()
 patient_info, target_group, complaint = (
     get_patient_info()
-)  # 病人基本資料 + 成人/兒童 + 主訴
+)  # 病人基本資料 + 成人/兒童 + 病人主訴
 end_time2 = time.time()
 logging.info(f"[time] Data get in {end_time2 - start_time2:.2f} seconds")
 

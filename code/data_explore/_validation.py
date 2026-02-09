@@ -20,6 +20,15 @@ _validation.py
 
 實體檔案:
 - result_log: 紀錄結果
+#----------------------------------------
+result_adjustment.log:
+2026-02-09 11:16:40,313 - Correct: 116
+2026-02-09 11:16:40,313 - Incorrect: 134
+2026-02-09 11:16:40,313 - Even Less: 43
+2026-02-09 11:16:40,313 - Even More: 91
+2026-02-09 11:16:40,313 - Total Accuracy: 0.464
+#----------------------------------------
+
 """
 
 from utilities.get_patient_info import get_patient_info
@@ -40,11 +49,15 @@ logging.basicConfig(
     format="%(asctime)s - %(message)s",
     force=True,
 )
-test_csv = pd.read_csv(r"C:\Users\ygz08\Work\TTAS\data\0128\data.csv")
+test_csv = pd.read_csv(
+    r"C:\Users\ygz08\Work\TTAS\code\data_explore\test_file\val_data.csv"
+)
 correct_count = 0
 incorrect_count = 0
 even_less_count = 0
 even_more_count = 0
+ground_truth_list = []
+predicted_level_list = []
 for i in range(len(test_csv)):
     row = test_csv.iloc[i]  # 0 is the first row
 
@@ -54,7 +67,7 @@ for i in range(len(test_csv)):
     )  # 病人基本資料 + 成人/兒童 + 主訴
 
     # run llm
-    final_decision, retrieved_docs = model_predict(
+    final_decision, top_content, top_remarks, top_query_text = model_predict(
         pipe, patient_info, collection, target_group, complaint
     )
 
@@ -64,23 +77,39 @@ for i in range(len(test_csv)):
 
     if int(final_decision_dict["level"]) == int(ground_truth):
         correct_count += 1
+        logging.info(
+            f"No.{i} Correct: {final_decision_dict['level']} == {ground_truth}\n"
+            f"Patient Info: {patient_info}\n"
+            f"Retrieved Docs: {top_query_text}\n"
+            f"Final Decision: {final_decision}\n"
+            f"--------------------------------------------------\n"
+        )
+        ground_truth_list.append(int(ground_truth))
+        predicted_level_list.append(int(final_decision_dict["level"]))
     else:
         incorrect_count += 1
         logging.error(
             f"No.{i} Incorrect: {final_decision_dict['level']} != {ground_truth}\n"
             f"Patient Info: {patient_info}\n"
-            f"Retrieved Docs: {retrieved_docs}\n"
+            f"Retrieved Docs: {top_query_text}\n"
             f"Final Decision: {final_decision}\n"
             f"--------------------------------------------------\n"
         )
+        ground_truth_list.append(int(ground_truth))
+        predicted_level_list.append(int(final_decision_dict["level"]))
     if int(final_decision_dict["level"]) < int(ground_truth):
         even_less_count += 1
     if int(final_decision_dict["level"]) > int(ground_truth):
         even_more_count += 1
 
-logging.log(f"Correct: {correct_count}")
-logging.log(f"Incorrect: {incorrect_count}")
-logging.log(f"Even Less: {even_less_count}")
-logging.log(f"Even More: {even_more_count}")
+logging.info(f"Correct: {correct_count}")
+logging.info(f"Incorrect: {incorrect_count}")
+logging.info(f"Even Less: {even_less_count}")
+logging.info(f"Even More: {even_more_count}")
+confusion_matrix = pd.crosstab(
+    pd.Series(ground_truth_list, name="Actual"),
+    pd.Series(predicted_level_list, name="Predicted"),
+)
+logging.info(f"Confusion Matrix:\n{confusion_matrix}")
 total_accuracy = correct_count / len(test_csv)
-logging.log(f"Total Accuracy: {total_accuracy}")
+logging.info(f"Total Accuracy: {total_accuracy}")

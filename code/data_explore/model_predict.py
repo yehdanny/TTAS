@@ -22,25 +22,31 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def generate_ttas_response(pipe, patient_info, retrieved_docs):
-    context = "\n\n".join(retrieved_docs)
+def generate_ttas_response(pipe, patient_info, top_content, top_remarks):
+
+    context = "\n\n".join(top_content)
+    remarks = "\n\n".join(top_remarks)
 
     # 這裡加入 System Prompt，讓模型進入「專家模式」
-    system_prompt = "你是一位精通台灣急診檢傷系統（TTAS）的專業護理師。你必須嚴格遵守檢傷準則，並僅以 JSON 格式輸出結果。"
+    system_prompt = """你是一位精通台灣急診檢傷系統（TTAS）的專業護理師。你必須嚴格遵守檢傷準則，並僅以 JSON 格式輸出結果。"""
 
-    user_content = f"""【檢傷參考準則】:
+    user_content = f"""【檢傷參考準則】: 
     {context}
+
+    【備註】: 
+    {remarks}
 
     【病患資訊】:
     {patient_info}
 
     【判定規則】:
-    1. 若有多項指標判定出不同級數，採計「級數最小」者。
-    2. 考慮備註特殊情況。
-    3. 輸出JSON格式：
+    1. 指標需符合檢傷標準，才能判斷"level"分級。
+    2. 可調節分級項目，若病患資訊符合備註中的可調節分級項目，則可適當調整分級。
+    3. 考慮備註特殊情況，若病患資訊缺乏過多，則預設為5級。
+    4. 輸出JSON格式，level為整數(X ∈ [1, 2, 3, 4, 5])，reason為字串：
     {{
         "level": X,
-        "reason": "(請列出符合準則的具體項目)"
+        "reason": "(根據檢傷標準與病患資訊，簡短說明檢傷結果)"
     }}
     """
 
@@ -59,19 +65,29 @@ def generate_ttas_response(pipe, patient_info, retrieved_docs):
 
 def model_predict(pipe, patient_info, collection, target_group, complaint):
     try:  # RAG
+        if target_group == "成人":
+            search_labels = ["成人", "成人/兒童"]
+        else:
+            search_labels = ["兒童", "成人/兒童"]
+
         results = collection.query(
-            query_texts=[complaint], n_results=3, where={"target": target_group}
+            query_texts=[complaint],
+            n_results=3,
+            where={"target": {"$in": search_labels}},
         )
         logger.info("[info] RAG successfully")
     except Exception as e:
         logger.error(f"[error] RAG failed: {e}")
 
     try:  # llm quest
+        top_query_text = results["documents"][0][0]  # 計算relevant的大項目
+        top_content = results["metadatas"][0][0]["full_content"]  # 詳細5分級內容
+        top_remarks = results["metadatas"][0][0]["full_remarks"]  # 備註
         final_decision = generate_ttas_response(
-            pipe, patient_info, results["documents"][0]
+            pipe, patient_info, top_content, top_remarks
         )
         logger.info("[info] LLM prediction successfully")
-        return final_decision, results["documents"][0]
+        return final_decision, top_content, top_remarks, top_query_text
     except Exception as e:
         logger.error(f"[error] LLM prediction failed: {e}")
 

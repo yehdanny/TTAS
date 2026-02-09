@@ -17,7 +17,7 @@ model_init.py
 import torch
 import chromadb
 from llama_cpp import Llama
-from utilities.chunk_list import chunks_list
+from utilities.chunks import chunks_list
 import os
 import logging
 
@@ -54,12 +54,19 @@ def initialize_llm():
 # 2. 準備與儲存 Chunks
 def setup_vector_db(chunks):
     client = chromadb.Client()
-    # 建立集合，這裡可以使用默認的 embedding function
     collection = client.create_collection(name="ttas_knowledge")
 
     ids = [f"id_{i}" for i in range(len(chunks))]
-    documents = [c["content"] + "\n備註: " + c["remarks"] for c in chunks]
-    metadatas = [c["metadata"] for c in chunks]
+    # 用 query_text 做為 Embedding 的對象
+    documents = [c["query_text"] for c in chunks]
+
+    # 將真正的 content 和 remarks 存進 metadata，方便檢索到後直接取用
+    metadatas = []
+    for c in chunks:
+        meta = c["metadata"].copy()
+        meta["full_content"] = c["content"]
+        meta["full_remarks"] = c["remarks"]
+        metadatas.append(meta)
 
     collection.add(documents=documents, metadatas=metadatas, ids=ids)
     return collection
