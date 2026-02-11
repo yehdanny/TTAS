@@ -9,10 +9,14 @@ data_explore/
 ├── models/             # 存放模型檔案的目錄 (例如 .gguf 檔)
 ├── test_file/          # 包含測試資料檔案 (例如 test.json, out.json)
 ├── utilities/          # 輔助腳本
+│   ├── chunks/         # 放置六種分級詳細規則
+│   │   └── chunk_list_*.py 
 │   ├── chunk_list.py       # 用於 RAG 的檢傷標準文本塊
 │   ├── get_patient_info.py # 讀取並格式化病患資料的腳本
 │   ├── save2json.py        # 儲存結果的腳本
+│   ├── test_retrieval_quality.py # 測試檢索品質的腳本
 │   └── valdata_gen.py      # 生成驗證資料的腳本
+├── _validation.py      # 驗證 LLM+RAG 準確性的腳本 (注意：包含硬編碼路徑)
 ├── main.py             # 程式的主要進入點
 ├── model_init.py       # 模型與向量資料庫初始化
 ├── model_predict.py    # 使用 LLM 和 RAG 進行預測的邏輯
@@ -66,6 +70,22 @@ uv run main.py
     - **輸入**：`test_file/test.json`
     - **輸出**：`test_file/out.json`
 
+## 驗證與測試
+
+-   **準確性驗證 (`_validation.py`)**：
+    此腳本會讀取 `test_file/val_data.csv`，並比較模型預測結果與真實標註 (`ground_truth`)。
+    輸出包含：
+    -   正確數量 (Correct)
+    -   錯誤數量 (Incorrect)
+    -   高估數量 (Even Less) : 實際4 預測3 //預測的比實際嚴重
+    -   低估數量 (Even More) : 實際4 預測5 //預測的比實際不嚴重
+    -   混淆矩陣 (Confusion Matrix)
+    -   總準確度 (Total Accuracy)
+    *請注意：執行前請確認檔案內的路徑設定正確。*
+
+-   **檢索品質測試 (`utilities/test_retrieval_quality.py`)**：
+    執行此腳本可測試 RAG 檢索系統對於不同情境（如頭頸部外傷、胸腹部外傷等）的檢索效果，確認是否能抓取到相關的檢傷標準。
+
 ## 關鍵檔案說明
 
 -   **`main.py`**：統籌初始化、資料讀取、預測與儲存結果的流程。此檔案負責設定 Logging 配置。
@@ -73,6 +93,8 @@ uv run main.py
 -   **`model_predict.py`**：包含執行向量搜尋的 `model_predict` 函數，以及提示 LLM 生成回應的 `generate_ttas_response` 函數。
 -   **`utilities/get_patient_info.py`**：負責解析不同來源（JSON/CSV）的病患資料，並格式化為 LLM 所需的標準字串格式。
 -   **`utilities/valdata_gen.py`**：用於生成驗證資料集的工具。
+-   **`_validation.py`**：用於計算模型預測的準確率、錯誤率以及誤差方向（過高或過低）。**注意：目前此檔案內含硬編碼路徑，使用前請先修改。**
+-   **`utilities/test_retrieval_quality.py`**：用於測試 ChromaDB 檢索品質的腳本，可針對不同外傷類別進行查詢測試。
 
 ## 備註
 

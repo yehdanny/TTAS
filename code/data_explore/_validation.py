@@ -19,15 +19,24 @@ _validation.py
 - total_accuracy: float
 
 實體檔案:
-- result_log: 紀錄結果
-#----------------------------------------
-result_adjustment.log:
-2026-02-09 11:16:40,313 - Correct: 116
-2026-02-09 11:16:40,313 - Incorrect: 134
-2026-02-09 11:16:40,313 - Even Less: 43
-2026-02-09 11:16:40,313 - Even More: 91
-2026-02-09 11:16:40,313 - Total Accuracy: 0.464
-#----------------------------------------
+#預測"檢傷級數"
+- result_adjustment.log : 只使用總表(adjustment)的chunk做。            Total Accuracy: 0.464
+- result_chunks.log : 使用chunks做只取top1。                           Total Accuracy: 0.556
+- result_top3.log : 使用chunks做取top3。  +護理師判斷("檢傷名稱中文名")+ 身高體重+edge case(無主訴..)  Total Accuracy: 0.688
+- result_top1.log: 不要adjustment(沒差多少) + top 1  Total Accuracy: 0.62
+- result_top2.log: Total Accuracy: 0.652
+- top3 (0.688) > top2 (0.652) > top1 (0.62)
+---------------------------------------
+#預測"預設檢傷級數"
+
+
+
+#TODO:
+0. 先預測"預設檢傷級數"，再role base 調整。
+1. 測試prompt加上 護理初步判斷 優先級高一點。
+2. edge case 無主訴。
+3. 把remark放上調節變數
+4. 先進一次LLM 把"病人主訴"抓重點，再用重點的主訴 做rag。
 
 """
 
@@ -62,13 +71,13 @@ for i in range(len(test_csv)):
     row = test_csv.iloc[i]  # 0 is the first row
 
     # get data
-    patient_info, target_group, complaint, ground_truth = get_patient_info(
+    patient_info, target_group, complaint, ground_truth, judgement = get_patient_info(
         test=True, row=row
     )  # 病人基本資料 + 成人/兒童 + 主訴
 
     # run llm
     final_decision, top_content, top_remarks, top_query_text = model_predict(
-        pipe, patient_info, collection, target_group, complaint
+        pipe, patient_info, collection, target_group, complaint, judgement
     )
 
     if isinstance(final_decision, str):

@@ -1,0 +1,209 @@
+(TTAS) PS C:\Users\ygz08\Work\TTAS>  c:; cd 'c:\Users\ygz08\Work\TTAS'; & 'c:\Users\ygz08\Work\TTAS\.venv\Scripts\python.exe' 'c:\Users\ygz08\.antigravity\extensions\ms-python.debugpy-2025.18.0-win32-x64\bundled\libs\debugpy\launcher' '57159' '--' 'c:\Users\ygz08\Work\TTAS\code\data_explore\test_retrieval_quality.py'
+2026-02-10 11:42:53,562 - Initializing model and vector DB...
+2026-02-10 11:42:53,582 - [Hardware] 偵測到 GPU: NVIDIA GeForce RTX 2070 (8.59GB VRAM)
+llama_context: n_ctx_per_seq (4096) < n_ctx_train (262144) -- the full capacity of the model will not be utilized
+2026-02-10 11:42:55,545 - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.       
+2026-02-10 11:43:05,062 - Load pretrained SentenceTransformer: paraphrase-multilingual-MiniLM-L12-v2
+2026-02-10 11:43:05,324 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-02-10 11:43:05,325 - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-02-10 11:43:05,336 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/modules.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:05,539 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:05,549 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:05,750 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:05,758 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:05,958 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:05,970 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/README.md "HTTP/1.1 200 OK"
+2026-02-10 11:43:06,174 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:06,183 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/modules.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:06,379 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:06,389 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:06,599 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-02-10 11:43:06,809 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:06,824 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/config.json "HTTP/1.1 200 OK"
+Loading weights: 100%|██████████████████████████████████████████████| 199/199 [00:00<00:00, 922.67it/s, Materializing param=pooler.dense.weight]
+BertModel LOAD REPORT from: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Key                     | Status     |  |
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  |
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2026-02-10 11:43:07,529 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:07,536 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/config.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:07,743 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:07,750 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:07,951 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:07,959 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:08,158 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-02-10 11:43:08,372 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-02-10 11:43:10,038 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 "HTTP/1.1 200 OK"
+2026-02-10 11:43:10,400 - HTTP Request: HEAD https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-02-10 11:43:10,409 - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-02-10 11:43:10,622 - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 "HTTP/1.1 200 OK"
+Batches: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 16.12it/s]
+2026-02-10 11:43:11,449 - [info] Model initialized successfully
+2026-02-10 11:43:11,449 - Starting comprehensive retrieval test (n_results=5)...
+2026-02-10 11:43:11,449 -
+=== 頭頸部外傷 ===
+2026-02-10 11:43:11,449 -
+Query: 頭部鈍傷
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 59.94it/s] 
+2026-02-10 11:43:11,564 -   [1] 頭部鈍傷 (T02頭部外傷)
+2026-02-10 11:43:11,564 -   [2] 頭部穿刺傷 (T02頭部外傷)
+2026-02-10 11:43:11,564 -   [3] 顏面部鈍傷 (T03顏面部外傷)
+2026-02-10 11:43:11,564 -   [4] 頭部撕裂傷、擦傷 (T02頭部外傷)
+2026-02-10 11:43:11,564 -   [5] 頸部鈍傷 (T07頸部外傷)
+2026-02-10 11:43:11,564 -
+Query: 頭很痛，撞到了
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 76.11it/s] 
+2026-02-10 11:43:11,588 -   [1] 頭部穿刺傷 (T02頭部外傷)
+2026-02-10 11:43:11,588 -   [2] 頭部鈍傷 (T02頭部外傷)
+2026-02-10 11:43:11,588 -   [3] 頭痛 (P04神經系統)
+2026-02-10 11:43:11,588 -   [4] 頭痛 (A04神經系統)
+2026-02-10 11:43:11,588 -   [5] 眼眶腫脹 (P08眼科)
+2026-02-10 11:43:11,589 -
+Query: 眼睛被球打到，看不清楚
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 70.56it/s]
+2026-02-10 11:43:11,613 -   [1] 眼睛鈍傷 (T04眼睛外傷)
+2026-02-10 11:43:11,613 -   [2] 眼睛穿刺傷 (T04眼睛外傷)
+2026-02-10 11:43:11,613 -   [3] 眼睛內異物 (A08眼科)
+2026-02-10 11:43:11,613 -   [4] 眼睛分泌物 (P08眼科)
+2026-02-10 11:43:11,613 -   [5] 眼睛分泌物 (A08眼科)
+2026-02-10 11:43:11,613 -
+Query: 鼻子被打歪了，流鼻血
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 78.90it/s] 
+2026-02-10 11:43:11,635 -   [1] 鼻子撕裂傷、擦傷 (T05鼻子外傷)
+2026-02-10 11:43:11,635 -   [2] 鼻子鈍傷 (T05鼻子外傷)
+2026-02-10 11:43:11,636 -   [3] 流鼻血 (P07耳鼻喉系統)
+2026-02-10 11:43:11,636 -   [4] 流鼻血 (A07耳鼻喉系統)
+2026-02-10 11:43:11,636 -   [5] 眼眶腫脹 (P08眼科)
+2026-02-10 11:43:11,636 -
+Query: 脖子被刀割傷
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 63.70it/s]
+2026-02-10 11:43:11,662 -   [1] 頸部穿刺傷 (T07頸部外傷)
+2026-02-10 11:43:11,662 -   [2] 頸部撕裂傷、擦傷 (T07頸部外傷)
+2026-02-10 11:43:11,662 -   [3] 頸部鈍傷 (T07頸部外傷)
+2026-02-10 11:43:11,662 -   [4] 頭部撕裂傷、擦傷 (T02頭部外傷)
+2026-02-10 11:43:11,662 -   [5] 頭部穿刺傷 (T02頭部外傷)
+2026-02-10 11:43:11,662 -
+=== 胸腹背部外傷 ===
+2026-02-10 11:43:11,662 -
+Query: 車禍胸口撞到方向盤，很喘
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 61.77it/s] 
+2026-02-10 11:43:11,689 -   [1] 胸部穿刺傷 (T08胸部外傷)
+2026-02-10 11:43:11,689 -   [2] 頸部穿刺傷 (T07頸部外傷)
+2026-02-10 11:43:11,689 -   [3] 胸痛/胸悶 (P02心臟血管系統)
+2026-02-10 11:43:11,689 -   [4] 胸痛/胸悶 (A02心臟血管系統)
+2026-02-10 11:43:11,689 -   [5] 胸部鈍傷 (T08胸部外傷)
+2026-02-10 11:43:11,689 -
+Query: 肚子被刀子捅了
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 79.13it/s] 
+2026-02-10 11:43:11,713 -   [1] 腹部(含骨盆)撕裂傷、擦傷 (T09腹部(含骨盆)外傷)
+2026-02-10 11:43:11,714 -   [2] 胸部撕裂傷、擦傷 (T08胸部外傷)
+2026-02-10 11:43:11,714 -   [3] 上肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,714 -   [4] 胸部穿刺傷 (T08胸部外傷)
+2026-02-10 11:43:11,714 -   [5] 下肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,714 -
+Query: 背部從高處跌落撞擊
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 76.16it/s]
+2026-02-10 11:43:11,737 -   [1] 腰、背部穿刺傷 (T10腰、背部外傷)
+2026-02-10 11:43:11,737 -   [2] 腰、背部撕裂傷、擦傷 (T10腰、背部外傷)
+2026-02-10 11:43:11,737 -   [3] 腰、背部鈍傷 (T10腰、背部外傷)
+2026-02-10 11:43:11,737 -   [4] 下肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,737 -   [5] 背痛 (P05骨骼系統)
+2026-02-10 11:43:11,737 -
+=== 肢體外傷 ===
+2026-02-10 11:43:11,737 -
+Query: 手指被切斷了
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 70.30it/s] 
+2026-02-10 11:43:11,761 -   [1] 上肢撕裂傷、擦傷 (T12肢體外傷)
+2026-02-10 11:43:11,761 -   [2] 上肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,761 -   [3] 下肢撕裂傷、擦傷 (T12肢體外傷)
+2026-02-10 11:43:11,761 -   [4] 上肢關節扭傷 (T12肢體外傷)
+2026-02-10 11:43:11,761 -   [5] 上肢鈍傷 (T12肢體外傷)
+2026-02-10 11:43:11,761 -
+Query: 腳扭到了，腫起來
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 75.29it/s]
+2026-02-10 11:43:11,784 -   [1] 關節腫脹 (P05骨骼系統)
+2026-02-10 11:43:11,784 -   [2] 關節腫脹 (A05骨骼系統)
+2026-02-10 11:43:11,784 -   [3] 上肢關節扭傷 (T12肢體外傷)
+2026-02-10 11:43:11,784 -   [4] 上肢鈍傷 (T12肢體外傷)
+2026-02-10 11:43:11,784 -   [5] 下肢鈍傷 (T12肢體外傷)
+2026-02-10 11:43:11,785 -
+Query: 大腿骨折，變形
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 75.96it/s] 
+2026-02-10 11:43:11,809 -   [1] 上肢關節扭傷 (T12肢體外傷)
+2026-02-10 11:43:11,809 -   [2] 下肢關節扭傷 (T12肢體外傷)
+2026-02-10 11:43:11,809 -   [3] 下肢鈍傷 (T12肢體外傷)
+2026-02-10 11:43:11,809 -   [4] 關節腫脹 (P05骨骼系統)
+2026-02-10 11:43:11,809 -   [5] 關節腫脹 (A05骨骼系統)
+2026-02-10 11:43:11,809 -
+Query: 手腕割腕自殺
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 76.10it/s]
+2026-02-10 11:43:11,833 -   [1] 上肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,833 -   [2] 上肢關節扭傷 (T12肢體外傷)
+2026-02-10 11:43:11,833 -   [3] 上肢創傷性截肢 (T12肢體外傷)
+2026-02-10 11:43:11,833 -   [4] 上肢撕裂傷、擦傷 (T12肢體外傷)
+2026-02-10 11:43:11,833 -   [5] 下肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,833 -
+=== 其他外傷 ===
+2026-02-10 11:43:11,833 -
+Query: 全身燒傷，很痛
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 87.95it/s] 
+2026-02-10 11:43:11,856 -   [1] 燒燙傷 (T13皮膚外傷)
+2026-02-10 11:43:11,856 -   [2] 上肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,856 -   [3] 下肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,856 -   [4] 上肢撕裂傷、擦傷 (T12肢體外傷)
+2026-02-10 11:43:11,856 -   [5] 上肢疼痛 (A05骨骼系統)
+2026-02-10 11:43:11,856 -
+Query: 被性侵
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 82.47it/s]
+2026-02-10 11:43:11,879 -   [1] 確定或疑似性侵害 (T14一般和其他傷害)
+2026-02-10 11:43:11,879 -   [2] 確定或疑似性侵害 (P10婦產科)
+2026-02-10 11:43:11,880 -   [3] 確定或疑似性侵害 (A10婦產科)
+2026-02-10 11:43:11,880 -   [4] 破壞性行為 (P11心理健康)
+2026-02-10 11:43:11,880 -   [5] 陰道內異物 (P10婦產科)
+2026-02-10 11:43:11,880 -
+Query: 被家暴，全身都是傷
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 82.07it/s] 
+2026-02-10 11:43:11,902 -   [1] 上肢撕裂傷、擦傷 (T12肢體外傷)
+2026-02-10 11:43:11,902 -   [2] 下肢撕裂傷、擦傷 (T12肢體外傷)
+2026-02-10 11:43:11,902 -   [3] 胸部撕裂傷、擦傷 (T08胸部外傷)
+2026-02-10 11:43:11,903 -   [4] 上肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,903 -   [5] 下肢穿刺傷 (T12肢體外傷)
+2026-02-10 11:43:11,903 -
+=== 非外傷 (內科) ===
+2026-02-10 11:43:11,903 -
+Query: 胸悶，冒冷汗
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 65.90it/s]
+2026-02-10 11:43:11,927 -   [1] 胸痛/胸悶 (P02心臟血管系統)
+2026-02-10 11:43:11,927 -   [2] 胸痛/胸悶 (A02心臟血管系統)
+2026-02-10 11:43:11,927 -   [3] 中暑/高體溫症 (E01環境)
+2026-02-10 11:43:11,927 -   [4] 低體溫症 (E01環境)
+2026-02-10 11:43:11,927 -   [5] 發燒/畏寒 (A13一般和其他)
+2026-02-10 11:43:11,927 -
+Query: 肚子痛，狂拉肚子
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 73.25it/s] 
+2026-02-10 11:43:11,950 -   [1] 腹痛 (P03腸胃系統)
+2026-02-10 11:43:11,952 -   [2] 腹痛 (A03腸胃系統)
+2026-02-10 11:43:11,952 -   [3] 腹瀉 (P03腸胃系統)
+2026-02-10 11:43:11,952 -   [4] 腹瀉 (A03腸胃系統)
+2026-02-10 11:43:11,952 -   [5] 直腸會陰疼痛 (A03腸胃系統)
+2026-02-10 11:43:11,952 -
+Query: 頭暈，想吐
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 76.11it/s]
+2026-02-10 11:43:11,975 -   [1] 眩暈/頭暈 (P04神經系統)
+2026-02-10 11:43:11,975 -   [2] 眩暈/頭暈 (A04神經系統)
+2026-02-10 11:43:11,975 -   [3] 震顫 (P04神經系統)
+2026-02-10 11:43:11,976 -   [4] 震顫 (A04神經系統)
+2026-02-10 11:43:11,976 -   [5] 抽搐 (P04神經系統)
+2026-02-10 11:43:11,976 -
+Query: 發高燒，全身無力
+Batches: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 70.31it/s] 
+2026-02-10 11:43:11,999 -   [1] 發燒/畏寒 (P13一般和其他)
+2026-02-10 11:43:11,999 -   [2] 發燒/畏寒 (A13一般和其他)
+2026-02-10 11:43:11,999 -   [3] 中暑/高體溫症 (E01環境)
+2026-02-10 11:43:11,999 -   [4] 成人體溫檢傷標準，發燒、低體溫、敗血症 (體溫)
+2026-02-10 11:43:11,999 -   [5] 全身虛弱 (P02心臟血管系統)
+(TTAS) PS C:\Users\ygz08\Work\TTAS>

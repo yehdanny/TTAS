@@ -5,9 +5,6 @@ from .chunks_list_P01_P13_pediatric import pediatric_chunks
 from .chunks_list_A01_A13_non_trauma import non_trauma_chunks
 
 chunks_list = (
-    adjustment_chunks
-    + trauma_chunks
-    + environment_chunks
-    + pediatric_chunks
-    + non_trauma_chunks
+    # adjustment_chunks +
+    trauma_chunks + environment_chunks + pediatric_chunks + non_trauma_chunks
 )

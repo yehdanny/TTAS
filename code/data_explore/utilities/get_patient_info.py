@@ -26,7 +26,17 @@ import json
 logger = logging.getLogger(__name__)
 
 
+def clean_val(val, unit="", default="未知"):
+    # 輔助函式：處理未知與單位
+    s_val = str(val).strip().lower()
+    # 判斷是否為空、空格、nan 或 0 (針對身高體重)
+    if s_val in ["", "nan", "none", "0", "0.0"]:
+        return default
+    return f"{val}{unit}"
+
+
 def format_patient_info_csv(row):
+    # 日期與對象判定
     visit_date = datetime.strptime(str(row["急診日期"]), "%Y%m%d")
     birth_date = datetime.strptime(str(row["生日"]), "%Y%m%d")
     age = (
@@ -36,43 +46,80 @@ def format_patient_info_csv(row):
     )
     target_group = "兒童" if age < 18 else "成人"
 
-    try:
-        sbp = float(row["收縮壓"])
-        dbp = float(row["舒張壓"])
-        map_val = round((sbp - dbp) / 3 + dbp, 1)
-    except:
-        map_val = "未知"
+    # 1. 基本資料處理
+    complaint = clean_val(row["病人主訴"], default="無提供主訴")
 
+    if row["性別"] == "M":
+        gender = "男"
+    elif row["性別"] == "F":
+        gender = "女"
+    else:
+        gender = "無提供"
+
+    # 2. 生理數據處理 (使用 clean_val 確保未知時不加單位)
+    height = clean_val(row["身高"], unit="cm")
+    weight = clean_val(row["體重"], unit="kg")
+    temp = clean_val(row["體溫"], unit="°C")
+    hr = clean_val(row["脈搏"], unit=" 次/分")
+    rr = clean_val(row["呼吸"], unit=" 次/分")
+    sao2 = clean_val(row["SAO2"], unit="%")
+
+    # 3. 血壓與 MAP 邏輯
+    sbp_raw = str(row["收縮壓"]).strip()
+    dbp_raw = str(row["舒張壓"]).strip()
+
+    if sbp_raw in ["", "nan", "0"] or dbp_raw in ["", "nan", "0"]:
+        bp_str = "未知"
+        map_val = "未知"
+    else:
+        try:
+            sbp = float(sbp_raw)
+            dbp = float(dbp_raw)
+            bp_str = f"{int(sbp)}/{int(dbp)} mmHg"
+            map_val = round((sbp - dbp) / 3 + dbp, 1)
+        except:
+            bp_str = "未知"
+            map_val = "未知"
+
+    # 4. GCS 處理
     try:
-        gcs_sum = int(row["GCS_E"]) + int(row["GCS_V"]) + int(row["GCS_M"])
+        e, v, m = int(row["GCS_E"]), int(row["GCS_V"]), int(row["GCS_M"])
+        gcs_sum = f"{e + v + m} 分 (E{e}, V{v}, M{m})"
     except:
         gcs_sum = "未知"
 
+    allergy = clean_val(row["藥物過敏史"], default="無")
+
+    # 組合字串
     info_str = f"""
     【病患基本資料】
-    - 對象：{target_group} (年齡: {age}歲, 性別: {row["性別"]})
-    - 主訴：{row["病人主訴"]}
+    - 對象：{target_group} (年齡: {age}歲, 性別: {gender})
+    - 主訴：{complaint}
 
-
-    【生理數據 (Vital Signs)】
-    - 體溫：{row["體溫"]}°C
-    - 血壓：{row["收縮壓"]}/{row["舒張壓"]} mmHg (MAP: {map_val})
-    - 心跳/脈搏：{row["脈搏"]} 次/分
-    - 呼吸：{row["呼吸"]} 次/分
-    - 血氧 (SaO2)：{row["SAO2"]}%
-    - 意識狀態 (GCS)：{gcs_sum} 分 (E{row["GCS_E"]}, V{row["GCS_V"]}, M{row["GCS_M"]})
-    - 藥物過敏史：{row["藥物過敏史"]}
+    【生理數據】
+    - 身高：{height}
+    - 體重：{weight}
+    - 體溫：{temp}
+    - 血壓：{bp_str} (MAP: {map_val})
+    - 心跳/脈搏：{hr}
+    - 呼吸：{rr}
+    - 血氧 (SaO2)：{sao2}
+    - 意識狀態 (GCS)：{gcs_sum}
+    - 藥物過敏史：{allergy}
     """
 
     return (
         info_str,
         target_group,
-        row["病人主訴"],
+        complaint,
         row["檢傷分級"],
-    )  # 檢傷分級 for validation purpose
+        row["檢傷名稱中文名"],
+    )
 
 
 def format_patient_info_json(json_data):
+
+    # 日期與年齡計算
     visit_date = datetime.strptime(str(json_data["急診日期"]), "%Y%m%d")
     birth_date = datetime.strptime(str(json_data["生日"]), "%Y%m%d")
     age = (
@@ -82,42 +129,75 @@ def format_patient_info_json(json_data):
     )
     target_group = "兒童" if age < 18 else "成人"
 
-    try:
-        sbp = float(json_data["收縮壓"])
-        dbp = float(json_data["舒張壓"])
-        map_val = round((sbp - dbp) / 3 + dbp, 1)
-    except:
-        map_val = "未知"
+    # 1. 基本資料處理
+    complaint = clean_val(json_data["病人主訴"], default="無提供主訴")
 
+    gender_map = {"M": "男", "F": "女"}
+    gender = gender_map.get(str(json_data["性別"]).strip().upper(), "無提供")
+
+    # 2. 生理數據處理 (未知時不加單位)
+    height = clean_val(json_data["身高"], "cm", default="無提供")
+    weight = clean_val(json_data["體重"], "kg", default="無提供")
+    temp = clean_val(json_data["體溫"], "°C")
+    hr = clean_val(json_data["脈搏"], " 次/分")
+    rr = clean_val(json_data["呼吸"], " 次/分")
+    sao2 = clean_val(json_data["SAO2"], "%")
+
+    # 3. 血壓與 MAP 邏輯
+    sbp_val = str(json_data["收縮壓"]).strip()
+    dbp_val = str(json_data["舒張壓"]).strip()
+
+    if sbp_val in ["", "nan", "0"] or dbp_val in ["", "nan", "0"]:
+        bp_str = "未知"
+        map_val = "未知"
+    else:
+        try:
+            sbp = float(sbp_val)
+            dbp = float(dbp_val)
+            bp_str = f"{int(sbp)}/{int(dbp)} mmHg"
+            map_val = round((sbp - dbp) / 3 + dbp, 1)
+        except:
+            bp_str = "未知"
+            map_val = "未知"
+
+    # 4. GCS 意識狀態
     try:
-        gcs_sum = (
-            int(json_data["GCS_E"]) + int(json_data["GCS_V"]) + int(json_data["GCS_M"])
-        )
+        e = int(json_data["GCS_E"])
+        v = int(json_data["GCS_V"])
+        m = int(json_data["GCS_M"])
+        gcs_sum = f"{e + v + m} 分 (E{e}, V{v}, M{m})"
     except:
         gcs_sum = "未知"
 
+    allergy = clean_val(json_data["藥物過敏史"], default="無")
+
     info_str = f"""
     【病患基本資料】
-    - 對象：{target_group} (年齡: {age}歲, 性別: {json_data["性別"]})
-    - 主訴：{json_data["病人主訴"]}
+    - 對象：{target_group} (年齡: {age}歲, 性別: {gender})
+    - 主訴：{complaint}
 
-
-    【生理數據 (Vital Signs)】
-    - 體溫：{json_data["體溫"]}°C
-    - 血壓：{json_data["收縮壓"]}/{json_data["舒張壓"]} mmHg (MAP: {map_val})
-    - 心跳/脈搏：{json_data["脈搏"]} 次/分
-    - 呼吸：{json_data["呼吸"]} 次/分
-    - 血氧 (SaO2)：{json_data["SAO2"]}%  
-    - 意識狀態 (GCS)：{gcs_sum} 分 (E{json_data["GCS_E"]}, V{json_data["GCS_V"]}, M{json_data["GCS_M"]})
-    - 藥物過敏史：{json_data["藥物過敏史"]}
+    【生理數據】
+    - 身高：{height}
+    - 體重：{weight}
+    - 體溫：{temp}
+    - 血壓：{bp_str} (MAP: {map_val})
+    - 心跳/脈搏：{hr}
+    - 呼吸：{rr}
+    - 血氧 (SaO2)：{sao2}
+    - 意識狀態 (GCS)：{gcs_sum}
+    - 藥物過敏史：{allergy}
     """
-    return info_str, target_group, json_data["病人主訴"]
+
+    # 回傳時保持 json_data["病人主訴"] 原始值或處理過的值，視您後續 RAG 需求而定
+    return info_str, target_group, complaint, json_data["檢傷名稱中文名"]
 
 
 def get_patient_info(test=False, row=None):
     if test:
-        patient_text, target, complaint, ground_truth = format_patient_info_csv(row)
-        return patient_text, target, complaint, ground_truth
+        patient_text, target, complaint, ground_truth, judgement = (
+            format_patient_info_csv(row)
+        )
+        return patient_text, target, complaint, ground_truth, judgement
     else:
         try:  # get json
             json_data = get_json_api()
@@ -125,12 +205,14 @@ def get_patient_info(test=False, row=None):
             logger.error(f"[error] Get JSON failed: {e}")
 
         try:  # format patient info
-            patient_text, target, complaint = format_patient_info_json(json_data)
+            patient_text, target, complaint, judgement = format_patient_info_json(
+                json_data
+            )
         except Exception as e:
             logger.error(f"[error] Format patient info failed: {e}")
 
         logger.info("[info] Get patient info successfully")
-        return patient_text, target, complaint
+        return patient_text, target, complaint, judgement
 
 
 # TODO: 串api get json

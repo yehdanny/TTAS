@@ -16,12 +16,13 @@ model_init.py
 
 import torch
 import chromadb
+from chromadb.utils import embedding_functions
 from llama_cpp import Llama
 from utilities.chunks import chunks_list
 import os
 import logging
 
-os.environ["HF_HUB_OFFLINE"] = "1"
+# os.environ["HF_HUB_OFFLINE"] = "1"
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +55,14 @@ def initialize_llm():
 # 2. 準備與儲存 Chunks
 def setup_vector_db(chunks):
     client = chromadb.Client()
-    collection = client.create_collection(name="ttas_knowledge")
+
+    sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(
+        model_name="paraphrase-multilingual-MiniLM-L12-v2"
+    )
+
+    collection = client.get_or_create_collection(
+        name="ttas_knowledge", embedding_function=sentence_transformer_ef
+    )
 
     ids = [f"id_{i}" for i in range(len(chunks))]
     # 用 query_text 做為 Embedding 的對象
